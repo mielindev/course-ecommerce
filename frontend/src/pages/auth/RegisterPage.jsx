@@ -73,13 +73,13 @@ const RegisterPage = () => {
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none z-2">
-              <User className="size-5 text-base-content/40" />
+              <User className="size-5 text-base-content/70" />
             </div>
             <input
               type="text"
               placeholder="John Doe"
-              className={`input input-bordered w-full pl-10 focus:outline-none ${
-                errors.name && "input-error"
+              className={`input  w-full pl-10 focus:outline-none ${
+                errors.name ? "input-error" : "border-base-content/60"
               }`}
               {...register("name")}
             />
@@ -97,13 +97,13 @@ const RegisterPage = () => {
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none z-2">
-              <Mail className="size-5 text-base-content/40" />
+              <Mail className="size-5 text-base-content/70" />
             </div>
             <input
               type="email"
               placeholder="yourEmail@example.com"
-              className={`input input-bordered w-full pl-10 focus:outline-none ${
-                errors.email && "input-error"
+              className={`input  w-full pl-10 focus:outline-none ${
+                errors.email ? "input-error" : "border-base-content/60"
               }`}
               {...register("email")}
             />
@@ -118,13 +118,13 @@ const RegisterPage = () => {
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none z-2">
-              <Lock className="size-5 text-base-content/40" />
+              <Lock className="size-5 text-base-content/70" />
             </div>
             <input
               type={showPassword ? "text" : "password"}
               placeholder="*********"
-              className={`input input-bordered w-full pl-10 focus:outline-none ${
-                errors.password && "input-error"
+              className={`input w-full pl-10 focus:outline-none ${
+                errors.password ? "input-error" : "border-base-content/60"
               }`}
               {...register("password")}
             />
@@ -136,9 +136,9 @@ const RegisterPage = () => {
               }}
             >
               {showPassword ? (
-                <Eye className="size-5 text-base-content/40" />
+                <Eye className="size-5 text-base-content/70" />
               ) : (
-                <EyeOff className="size-5 text-base-content/40" />
+                <EyeOff className="size-5 text-base-content/70" />
               )}
             </button>
           </div>
@@ -154,13 +154,13 @@ const RegisterPage = () => {
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none z-2">
-              <KeyRound className="size-5 text-base-content/40" />
+              <KeyRound className="size-5 text-base-content/70" />
             </div>
             <input
               type={showRePassword ? "text" : "password"}
               placeholder="*********"
-              className={`input input-bordered w-full pl-10 focus:outline-none ${
-                errors.rePassword && "input-error"
+              className={`input w-full pl-10 focus:outline-none ${
+                errors.rePassword ? "input-error" : "border-base-content/60"
               }`}
               {...register("rePassword")}
             />
@@ -172,9 +172,9 @@ const RegisterPage = () => {
               }}
             >
               {showRePassword ? (
-                <Eye className="size-5 text-base-content/40" />
+                <Eye className="size-5 text-base-content/70" />
               ) : (
-                <EyeOff className="size-5 text-base-content/40" />
+                <EyeOff className="size-5 text-base-content/70" />
               )}
             </button>
           </div>

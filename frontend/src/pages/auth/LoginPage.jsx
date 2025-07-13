@@ -1,19 +1,46 @@
 import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
+import useAuthStore from "../../store/useAuthStore";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup.object({
+  email: yup
+    .string()
+    .email("Please enter a valid email")
+    .required("Email is required"),
+  password: yup.string().required("Password is required"),
+});
+
 const LoginPage = () => {
   const { setTitle, setDescription } = useOutletContext();
   const [showPassword, setShowPassword] = useState(false);
-
+  const { authUser, isLoggingIn, loginAccount } = useAuthStore();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   useEffect(() => {
     setTitle("Welcome back!");
     setDescription(
       "Enter your login credentials to access your account. If you don't have one, you can register one."
     );
   }, [setTitle, setDescription]);
+
+  const onSubmit = (data) => {
+    loginAccount(data);
+  };
   return (
     <div className="w-full flex flex-col justify-center items-center">
-      <form className="w-full max-w-sm space-y-4">
+      <form
+        className="w-full max-w-sm space-y-4"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className="form-control">
           <label className="label">
             <span className="label-text text-md">Email</span>
@@ -28,6 +55,7 @@ const LoginPage = () => {
               type="email"
               placeholder="Email"
               className="input input-bordered w-full pl-10 focus:outline-none"
+              {...register("email")}
             />
           </div>
         </div>
@@ -46,6 +74,7 @@ const LoginPage = () => {
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               className="input w-full pl-10 focus:outline-none"
+              {...register("password")}
             />
             <button
               type="button"
@@ -63,7 +92,11 @@ const LoginPage = () => {
             </button>
           </div>
         </div>
-        <button type="submit" className="btn btn-primary w-full rounded-lg">
+        <button
+          type="submit"
+          className="btn btn-primary w-full rounded-lg"
+          disabled={isLoggingIn}
+        >
           <span className="animate__animated animate__jello">Login</span>
         </button>
       </form>

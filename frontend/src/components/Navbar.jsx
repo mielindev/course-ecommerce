@@ -1,14 +1,18 @@
 import React, { useRef, useState } from "react";
-import { Menu, ShoppingBasket, X } from "lucide-react";
+import { LogOut, Menu, ShoppingBasket, UserRoundCog, X } from "lucide-react";
 import { navItems } from "../constants";
 import { Link } from "react-router-dom";
 import useAuthStore from "../store/useAuthStore";
 
 const Navbar = () => {
   const drawerRef = useRef();
-  const { authUser } = useAuthStore();
+  const { authUser, logout } = useAuthStore();
   const handleCloseDrawer = () => {
     if (drawerRef.current) drawerRef.current.checked = false;
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -32,7 +36,7 @@ const Navbar = () => {
           </div>
 
           {/* Center Logo */}
-          <div className="mx-2 flex-1 px-2 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="mx-2 flex-1 px-2 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none">
             <Link
               to="/"
               className="text-4xl tracking-widest text-primary cursor-pointer font-anton "
@@ -74,13 +78,17 @@ const Navbar = () => {
                     </div>
                     <ul
                       tabIndex={0}
-                      className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+                      className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 border-1 border-base-content/50 shadow-sm"
                     >
-                      <li>
-                        <a>Item 1</a>
+                      <li className="border-b border-base-content/40">
+                        <a className="btn btn-ghost">
+                          <UserRoundCog className="size-5 mr-2" /> Profile
+                        </a>
                       </li>
-                      <li>
-                        <a>Item 2</a>
+                      <li className="border-b border-base-content/40">
+                        <a onClick={handleLogout} className="btn btn-ghost">
+                          <LogOut className="size-5 mr-2" /> Logout
+                        </a>
                       </li>
                     </ul>
                   </div>

@@ -8,7 +8,7 @@ const AuthImagePattern = ({ title, description }) => {
           {[...Array(9)].map((_, i) => (
             <div
               key={i}
-              className={`aspect-square rounded-2xl bg-primary/10 ${
+              className={`aspect-square rounded-2xl bg-primary/70 ${
                 i % 2 == 0 ? "animate-pulse" : ""
               }`}
             ></div>
