@@ -25,7 +25,6 @@ const badgeColors = [
   "badge-success",
   "badge-warning",
   "badge-error",
-  "badge-neutral",
   "badge-ghost",
 ];
 
