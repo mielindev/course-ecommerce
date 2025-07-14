@@ -6,17 +6,26 @@ const useProductStore = create((set, get) => ({
   isGetingProducts: false,
   productDetail: null,
 
-  getProductPagination: async (page = 1, pageSize = 10) => {
+  getProducts: async (
+    page = 1,
+    pageSize = 10,
+    search = "",
+    category = "",
+    priceOption = ""
+  ) => {
     try {
       const res = await axiosIntance.get("products", {
         params: {
           page,
           pageSize,
+          search,
+          category,
+          priceOption,
         },
       });
       set({ products: res.data });
     } catch (error) {
-      console.log("Error in getProductPagination: ", error);
+      console.log("Error in getProducts: ", error);
     }
   },
 
