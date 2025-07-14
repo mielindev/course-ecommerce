@@ -28,6 +28,15 @@ const categoryController = {
       return res.status(500).json({ message: "Internal Server Error" });
     }
   },
+  getCategories: async (req, res) => {
+    try {
+      const categories = await Category.find();
+      return res.status(200).json({ data: categories });
+    } catch (error) {
+      console.log("Error in getCategories controller", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  },
 };
 
 export default categoryController;
