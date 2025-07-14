@@ -1,48 +1,26 @@
 import { useEffect } from "react";
-import { Star, StarHalf } from "lucide-react";
 import Banner from "../../components/Banner";
 import useProductStore from "../../store/useProductStore";
+import { useNavigate } from "react-router-dom";
+import StarRating from "../../components/StarRating";
+import { formatPrice } from "../../utils/format";
+import { getBadgeColor } from "../../constants";
+import { ArrowBigRight, CircleChevronRight, CornerRightUp } from "lucide-react";
 
 const HomePage = () => {
   const { products, getProductPagination } = useProductStore();
   console.log("👉 ~ HomePage ~ products:", products);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    getProductPagination(1, 6);
+    getProductPagination(1, 8);
   }, [getProductPagination]);
-
-  const renderStars = (rating) => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      if (rating >= i) {
-        stars.push(
-          <Star key={i} className="w-5 h-5 text-orange-400 fill-orange-400" />
-        );
-      } else if (rating >= i - 0.5) {
-        stars.push(
-          <StarHalf
-            key={i}
-            className="w-5 h-5 text-orange-400 fill-orange-400"
-          />
-        );
-      }
-    }
-    return stars;
-  };
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
 
   return (
     <div className="bg-base-100/80 w-full">
       <Banner />
       <div className="py-16">
         {/* Title */}
-        <div className="text-center ">
+        <div className="text-center">
           <h1 className="text-3xl md:text-5xl tracking-tight text-primary uppercase font-anton">
             Our course
           </h1>
@@ -52,23 +30,25 @@ const HomePage = () => {
             adipisci nobis?
           </p>
         </div>
-
         {/* Product Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 space-y-2 p-4">
           {products?.data?.map((product) => (
             <div
               key={product._id}
-              className="card bg-base-100 shadow-sm relative"
+              className="card bg-base-100 shadow-sm relative select-none cursor-pointer overflow-hidden"
+              onClick={() => navigate(`/products/${product._id}`)}
             >
-              <div className="badge badge-accent absolute bottom-5 right-2.5">
-                Best Seller
+              <div
+                className={`badge badge-outline absolute bottom-5 right-2.5 ${getBadgeColor(
+                  product.category.name
+                )}`}
+              >
+                {product.category.name}
               </div>
               <figure>
                 <img
-                  className="w-full"
-                  src={
-                    "https://img-c.udemycdn.com/course/240x135/3873464_403c_3.jpg"
-                  }
+                  className="w-full h-52 object-fit-cover"
+                  src={product.image}
                   alt={product.name}
                 />
               </figure>
@@ -87,7 +67,7 @@ const HomePage = () => {
                       <span className="mr-1.5 text-lg font-bold text-orange-600">
                         {product.rating}
                       </span>
-                      <div className="flex">{renderStars(product.rating)}</div>
+                      <StarRating rating={product.rating} />
                       <span className="ml-1.5 text-md text-base-content/60">
                         ({product?.ratingCount || 123})
                       </span>
@@ -102,6 +82,12 @@ const HomePage = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="flex justify-center items-center p-4">
+          <button className="btn btn-wide px-4 py-2 rounded-full text-lg font-monospace flex items-center animate-bounce-x">
+            View more <ArrowBigRight />
+          </button>
         </div>
       </div>
     </div>

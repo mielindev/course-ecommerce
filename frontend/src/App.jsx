@@ -14,14 +14,14 @@ const App = () => {
 
   if (isCheckingAuth && !authUser) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center">
         <Loader className="size-10 animate-spin" />
       </div>
     );
   }
 
   return (
-    <div data-theme="light">
+    <div data-theme="dark">
       <RouterProvider router={router} />
       <Toaster
         position="top-center"
