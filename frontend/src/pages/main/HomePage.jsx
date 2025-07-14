@@ -6,12 +6,12 @@ import { ArrowBigRight } from "lucide-react";
 import ProductCard from "../../components/ProductCard";
 
 const HomePage = () => {
-  const { products, getProductPagination } = useProductStore();
+  const { products, getProducts } = useProductStore();
   console.log("👉 ~ HomePage ~ products:", products);
   const navigate = useNavigate();
   useEffect(() => {
-    getProductPagination(1, 8);
-  }, [getProductPagination]);
+    getProducts(1, 8);
+  }, [getProducts]);
 
   return (
     <div className="bg-base-100/80 w-full">
