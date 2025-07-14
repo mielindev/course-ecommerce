@@ -11,7 +11,7 @@ import {
 
 const CourseFeatures = () => {
   return (
-    <div className="grid grid-cols-2">
+    <div className="grid grid-cols-1 md:grid-cols-2 items-start">
       <ul className="space-y-2 pt-2 text-base-content">
         <li className="flex items-center gap-2">
           <GraduationCap className="text-primary" size={18} />
@@ -19,7 +19,7 @@ const CourseFeatures = () => {
         </li>
         <li className="flex items-center gap-2">
           <RefreshCcw className="text-primary" size={18} />
-          Lifetime Access & Free Updates
+          Lifetime Access & Updates
         </li>
         <li className="flex items-center gap-2">
           <Clock className="text-primary" size={18} />
@@ -37,15 +37,15 @@ const CourseFeatures = () => {
         </li>
         <li className="flex items-center gap-2">
           <Globe className="text-primary" size={18} />
-          100% Online & Flexible Schedule
+          100% Online & Flexible
         </li>
         <li className="flex items-center gap-2">
           <Undo2 className="text-primary" size={18} />
-          30-Day Money Back Guarantee
+          30-Day Money Back
         </li>
         <li className="flex items-center gap-2">
           <Users className="text-primary" size={18} />
-          Join a Global Learning Community
+          Join a Learning Community
         </li>
       </ul>
     </div>

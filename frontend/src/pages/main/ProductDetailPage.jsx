@@ -23,19 +23,19 @@ const ProductDetailPage = () => {
     );
   }
   return (
-    <div className="grid grid-cols-2 gap-8 p-8 py-16 items-start bg-base-100 min-h-[calc(80vh-3rem)]">
+    <div className="grid grid-cols-1 lg:grid-cols-2 w-full p-4 my-10 gap-6 bg-base-100 space-4 min-h-screen">
       {/* Product Image */}
-      <div className="flex justify-center items-center rounded-lg overflow-hidden">
+      <div className="flex justify-center items-start rounded-lg overflow-hidden">
         <img
           src={productDetail?.image}
           alt="Product Image"
-          className="w-full h-[70vh] object-fit-cover"
+          className="lg:size-full lg:object-fit-cover rounded-lg"
         />
       </div>
 
       {/* Product Details */}
-      <div className="space-y-4 text-primary max-w-xl w-full select-none">
-        <h1 className="text-5xl font-semibold font-montserrat">
+      <div className="space-y-4 text-primary select-none">
+        <h1 className="text-4xl md:text-5xl font-semibold font-montserrat">
           {productDetail?.name}
         </h1>
 
@@ -43,14 +43,12 @@ const ProductDetailPage = () => {
         <div className="flex items-center space-x-2">
           <StarRating rating={productDetail?.rating} />
           <span className="text-base-content">
-            {productDetail?.rating} (based on 453 reviews)
+            {productDetail?.rating} (453 reviews)
           </span>
         </div>
 
         {/* Description */}
-        <p className="text-base-content/60 w-lg">
-          {productDetail?.description}
-        </p>
+        <p className="text-base-content/60">{productDetail?.description}</p>
 
         {/* Price */}
         <div className="space-y-3">
@@ -67,7 +65,9 @@ const ProductDetailPage = () => {
         </div>
 
         {/* Button */}
-        <button className="btn btn-primary w-lg rounded-full">Shop Now</button>
+        <button className="btn btn-primary rounded-full w-full">
+          Shop Now
+        </button>
 
         <CourseFeatures />
       </div>
