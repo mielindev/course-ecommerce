@@ -2,6 +2,22 @@ import { useEffect } from "react";
 import useViewedStore from "../../store/useViewedStore";
 import { Trash2, XCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import ViewedCard from "../../components/ViewedCard";
+import Breadcrumbs from "../../components/Breadcrumbs";
+const breadcrumbs = [
+  {
+    name: "Home",
+    link: "/",
+  },
+  {
+    name: "Products",
+    link: "/products",
+  },
+  {
+    name: "Viewed",
+    link: "/viewed",
+  },
+];
 
 const ViewedPage = () => {
   const { viewedProducts, getViewedProducts, removeViewedProduct } =
@@ -15,17 +31,7 @@ const ViewedPage = () => {
   };
   return (
     <div className="min-h-screen p-4 bg-base-200">
-      <div className="breadcrumbs text-sm text-base-content/50">
-        <ul>
-          <li>
-            <Link to={"/"}>Home</Link>
-          </li>
-          <li>
-            <Link to={"/products"}>Products</Link>
-          </li>
-          <li className="cursor-pointer">Viewed Products</li>
-        </ul>
-      </div>
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Recently Viewed</h1>
         {viewedProducts.length > 0 && (
@@ -41,34 +47,12 @@ const ViewedPage = () => {
           <p>No viewed products yet.</p>
         </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {viewedProducts
             .filter(Boolean)
             .filter((data) => data?.product)
             .map((data, idx) => (
-              <div key={idx} className="card bg-base-100 shadow-md">
-                <figure>
-                  <img
-                    src={data?.product?.image || "/placeholder.jpg"}
-                    alt={data?.product?.name}
-                    className="object-cover"
-                  />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title line-clamp-2">
-                    {data?.product?.name}
-                  </h2>
-                  <p className="text-sm text-gray-500 line-clamp-2">
-                    {data?.product?.description}
-                  </p>
-                  <Link
-                    to={`/products/${data?.product?._id}`}
-                    className="btn btn-primary btn-sm mt-3"
-                  >
-                    View Details
-                  </Link>
-                </div>
-              </div>
+              <ViewedCard key={idx} product={data?.product} />
             ))}
         </div>
       )}
