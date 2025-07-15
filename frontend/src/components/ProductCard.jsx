@@ -2,12 +2,15 @@ import { useNavigate } from "react-router-dom";
 import { getBadgeColor } from "../constants";
 import { formatPrice } from "../utils/format";
 import StarRating from "./StarRating";
+import useViewedStore from "../store/useViewedStore";
 
 const ProductCard = ({ products }) => {
   const navigate = useNavigate();
+  const { addViewedProduct } = useViewedStore();
 
   const handleClickAndAddViewed = (productId) => {
     navigate(`/products/${productId}`);
+    addViewedProduct(productId);
   };
   return (
     <>
