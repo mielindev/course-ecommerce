@@ -25,7 +25,7 @@ const viewedController = {
 
       return res
         .status(201)
-        .json({ message: "Product viewed successfully", data: newViewed });
+        .json({ message: "Product viewed successfully", viewed: newViewed });
     } catch (error) {
       console.log("Error in addView controller", error);
       return res.status(500).json({ message: "Internal Server Error" });
@@ -48,7 +48,7 @@ const viewedController = {
 
       return res
         .status(200)
-        .json({ message: "Views retrieved successfully", data: views });
+        .json({ message: "Views retrieved successfully", viewed: views });
     } catch (error) {
       console.log("Error in getViews controller", error);
       return res.status(500).json({ message: "Internal Server Error" });
