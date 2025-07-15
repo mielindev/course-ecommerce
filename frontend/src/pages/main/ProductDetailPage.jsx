@@ -2,14 +2,21 @@ import { useParams } from "react-router-dom";
 import CourseFeatures from "../../components/CourseFeatures";
 import StarRating from "../../components/StarRating";
 import useProductStore from "../../store/useProductStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { formatPrice } from "../../utils/format";
-import { Loader } from "lucide-react";
+import { Heart, Loader } from "lucide-react";
 import { getBadgeColor } from "../../constants";
+import useFavoriteStore from "../../store/useFavoriteStore";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const { productDetail, isGetingProducts, getProductById } = useProductStore();
+  const { favorites, addFavorite, removeFavorite } = useFavoriteStore();
+  const [optimisticFavorites, setOptimisticFavorites] = useState([]);
+
+  const isFavorited =
+    optimisticFavorites.includes(id) ||
+    favorites.some((fav) => fav?.product === id);
 
   useEffect(() => {
     getProductById(id);
@@ -22,6 +29,27 @@ const ProductDetailPage = () => {
       </div>
     );
   }
+
+  const handleFavorite = async (productId) => {
+    if (isFavorited) {
+      setOptimisticFavorites((prev) => prev.filter((id) => id !== productId));
+
+      try {
+        await removeFavorite(productId);
+      } catch (error) {
+        console.log("Error in removeFavorite: ", error);
+        setOptimisticFavorites((prev) => [...prev, productId]);
+      }
+    } else {
+      setOptimisticFavorites((prev) => [...prev, productId]);
+      try {
+        addFavorite(productId);
+      } catch (error) {
+        console.log("Error in addFavorite: ", error);
+        setOptimisticFavorites((prev) => prev.filter((id) => id !== productId));
+      }
+    }
+  };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 w-full p-4 my-10 gap-6 bg-base-100 space-4 min-h-screen">
       {/* Product Image */}
@@ -65,9 +93,23 @@ const ProductDetailPage = () => {
         </div>
 
         {/* Button */}
-        <button className="btn btn-primary rounded-full w-full">
-          Shop Now
-        </button>
+        <div className="flex items-center space-x-4">
+          <button className="btn btn-primary rounded-full w-1/2 flex-1">
+            Shop Now
+          </button>
+          <button
+            className="btn btn-primary rounded-full"
+            onClick={() => {
+              handleFavorite(productDetail._id);
+            }}
+          >
+            <Heart
+              size={20}
+              fill={isFavorited ? "red" : "none"}
+              className={isFavorited ? "text-red-500" : "text-base-content"}
+            />
+          </button>
+        </div>
 
         <CourseFeatures />
       </div>

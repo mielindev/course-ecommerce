@@ -4,13 +4,16 @@ import useAuthStore from "./store/useAuthStore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
+import useFavoriteStore from "./store/useFavoriteStore";
 
 const App = () => {
   const { isCheckingAuth, authUser, checkAuth } = useAuthStore();
+  const { getFavorites } = useFavoriteStore();
 
   useEffect(() => {
     checkAuth();
-  }, [checkAuth]);
+    getFavorites();
+  }, [checkAuth, getFavorites]);
 
   if (isCheckingAuth && !authUser) {
     return (
