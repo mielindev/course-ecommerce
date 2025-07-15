@@ -17,6 +17,9 @@ const cartController = {
       }
 
       let cart = await Cart.findOne({ user: userId });
+      if (!cart) {
+        cart = new Cart({ user: userId, items: [] });
+      }
 
       const existingItem = cart.items.find((item) =>
         item.product.equals(productId)
@@ -29,9 +32,9 @@ const cartController = {
       }
       await cart.save();
 
-      return res
-        .status(200)
-        .json({ message: "Added to cart", cart: cart.items });
+      await cart.populate("items.product");
+
+      return res.status(200).json({ cart: cart.items });
     } catch (error) {
       console.log("Error in addProductToCart controller", error);
       return res.status(500).json({ message: "Internal Server Error" });
@@ -45,7 +48,9 @@ const cartController = {
         "items.product"
       );
 
-      if (!cart) return res.status(404).json({ message: "Cart not found" });
+      if (!cart) {
+        return res.status(200).json({ cart: [] });
+      }
 
       return res
         .status(200)
@@ -60,6 +65,12 @@ const cartController = {
     try {
       const userId = req.user._id;
       const { productId, quantity } = req.body;
+
+      if (!productId || quantity < 1) {
+        return res
+          .status(400)
+          .json({ message: "Invalid product ID or quantity" });
+      }
 
       const cart = await Cart.findOne({ user: userId });
 
@@ -78,6 +89,7 @@ const cartController = {
       existingItem.quantity = quantity;
 
       await cart.save();
+      await cart.populate("items.product");
 
       return res
         .status(200)
@@ -99,9 +111,15 @@ const cartController = {
         return res.status(404).json({ message: "Cart not found" });
       }
 
+      const initialLength = cart.items.length;
       cart.items = cart.items.filter((item) => !item.product.equals(productId));
 
+      if (cart.items.length === initialLength) {
+        return res.status(404).json({ message: "Product not found in cart" });
+      }
+
       await cart.save();
+      await cart.populate("items.product");
 
       return res
         .status(200)
