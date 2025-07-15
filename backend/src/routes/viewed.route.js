@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post("/", protectRoute, viewedController.addView);
 router.get("/", protectRoute, viewedController.getViews);
-router.delete("/:productId", protectRoute, viewedController.removeView);
+router.delete("/", protectRoute, viewedController.removeView);
 
 export default router;

@@ -16,9 +16,7 @@ const viewedController = {
         product: productId,
       });
 
-      if (existing) {
-        return res.status(409).json({ message: "Product already viewed" });
-      }
+      if (existing) return res.sendStatus(204); // No Content
 
       const newViewed = new Viewed({ user: userId, product: productId });
       await newViewed.save();
