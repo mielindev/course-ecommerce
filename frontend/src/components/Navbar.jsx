@@ -89,17 +89,28 @@ const Navbar = () => {
                       className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 border-1 border-base-content/50 shadow-sm"
                     >
                       <li className="border-b border-base-content/40">
-                        <a className="btn btn-ghost">
+                        <Link
+                          onClick={() => document.activeElement.blur()}
+                          className="btn btn-ghost"
+                        >
                           <UserRoundCog className="size-5 mr-2" /> Profile
-                        </a>
+                        </Link>
                       </li>
                       <li className="border-b border-base-content/40">
-                        <Link to="/favorites" className="btn btn-ghost">
+                        <Link
+                          onClick={() => document.activeElement.blur()}
+                          to="/favorites"
+                          className="btn btn-ghost"
+                        >
                           <FolderHeart className="size-5 mr-2" /> Favorite
                         </Link>
                       </li>
                       <li className="border-b border-base-content/40">
-                        <Link to="/products/viewed" className="btn btn-ghost">
+                        <Link
+                          onClick={() => document.activeElement.blur()}
+                          to="/products/viewed"
+                          className="btn btn-ghost"
+                        >
                           <TicketCheck className="size-5 mr-2" /> Viewed
                         </Link>
                       </li>
