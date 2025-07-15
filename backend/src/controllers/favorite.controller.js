@@ -45,7 +45,9 @@ const favoriteController = {
     try {
       const userId = req.user._id;
 
-      const favorites = await Favorite.find({ user: userId });
+      const favorites = await Favorite.find({ user: userId }).populate(
+        "product"
+      );
 
       return res.status(200).json({ favorites });
     } catch (error) {
