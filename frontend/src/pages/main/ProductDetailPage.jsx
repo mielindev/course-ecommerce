@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import CourseFeatures from "../../components/CourseFeatures";
 import StarRating from "../../components/StarRating";
 import useProductStore from "../../store/useProductStore";
@@ -7,11 +7,15 @@ import { formatPrice } from "../../utils/format";
 import { Heart, Loader } from "lucide-react";
 import { getBadgeColor } from "../../constants";
 import useFavoriteStore from "../../store/useFavoriteStore";
+import useCartStore from "../../store/useCartStore";
+import toast from "react-hot-toast";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { productDetail, isGetingProducts, getProductById } = useProductStore();
   const { favorites, addFavorite, removeFavorite } = useFavoriteStore();
+  const { addToCart } = useCartStore();
   const [optimisticFavorites, setOptimisticFavorites] = useState([]);
 
   const isFavorited =
@@ -48,6 +52,12 @@ const ProductDetailPage = () => {
         setOptimisticFavorites((prev) => prev.filter((id) => id !== productId));
       }
     }
+  };
+
+  const handleShopNow = (productId) => {
+    addToCart({ productId, quantity: 1 });
+    toast.success("Product added to cart");
+    navigate("/cart");
   };
   return (
     <div>
@@ -100,7 +110,12 @@ const ProductDetailPage = () => {
           </div>
           {/* Button */}
           <div className="flex items-center space-x-4">
-            <button className="btn btn-primary rounded-full w-1/2 flex-1">
+            <button
+              className="btn btn-primary rounded-full w-1/2 flex-1"
+              onClick={() => {
+                handleShopNow(productDetail._id);
+              }}
+            >
               Shop Now
             </button>
             <button
