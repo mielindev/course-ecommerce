@@ -38,12 +38,8 @@ const viewedController = {
 
       const views = await Viewed.find({ user: userId }).populate("product");
 
-      if (!views) {
-        return res.status(404).json({ message: "Views not found" });
-      }
-
       if (views.length === 0) {
-        return res.status(404).json({ message: "No views found" });
+        return res.status(200).json({ message: "No views yet", viewed: [] });
       }
 
       return res
@@ -58,16 +54,10 @@ const viewedController = {
   removeView: async (req, res) => {
     try {
       const userId = req.user._id;
-      const { productId } = req.params;
 
-      const view = await Viewed.findOneAndDelete({
+      const view = await Viewed.deleteMany({
         user: userId,
-        product: productId,
       });
-
-      if (!view) {
-        return res.status(404).json({ message: "View not found" });
-      }
 
       return res.status(200).json({ message: "View removed successfully" });
     } catch (error) {
