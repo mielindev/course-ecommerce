@@ -12,7 +12,6 @@ const ProductPage = () => {
     category: "",
     priceOption: "",
   });
-  console.log("👉 ~ ProductPage ~ filters:", filters);
   const { products, isGetingProducts, getProducts } = useProductStore();
   const { categories, isGettingCategories, getCategories } = useCategoryStore();
   const { register, handleSubmit, reset } = useForm();

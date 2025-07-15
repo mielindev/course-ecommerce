@@ -39,11 +39,8 @@ const FavoritesPage = () => {
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {favorites?.map((data) => (
-            <div
-              key={data?.product?._id}
-              className="card bg-base-100 shadow-xl"
-            >
+          {favorites?.map((data, idx) => (
+            <div key={idx} className="card bg-base-100 shadow-xl">
               <figure>
                 <img
                   src={data?.product?.image}

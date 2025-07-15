@@ -7,7 +7,6 @@ import ProductCard from "../../components/ProductCard";
 
 const HomePage = () => {
   const { products, getProducts } = useProductStore();
-  console.log("👉 ~ HomePage ~ products:", products);
   const navigate = useNavigate();
   useEffect(() => {
     getProducts(1, 8);
