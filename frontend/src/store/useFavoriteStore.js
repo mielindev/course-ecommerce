@@ -3,6 +3,7 @@ import axiosIntance from "../lib/axios";
 
 const useFavoriteStore = create((set, get) => ({
   favorites: [],
+  isGettingFavorites: false,
 
   addFavorite: async (productId) => {
     try {
@@ -16,11 +17,14 @@ const useFavoriteStore = create((set, get) => ({
   },
 
   getFavorites: async () => {
+    set({ isGettingFavorites: true });
     try {
       const res = await axiosIntance.get(`/favorites`);
       set({ favorites: res.data.favorites });
     } catch (error) {
       console.log("Error in getFavorites: ", error);
+    } finally {
+      set({ isGettingFavorites: false });
     }
   },
 
