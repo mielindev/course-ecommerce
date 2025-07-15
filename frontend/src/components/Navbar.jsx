@@ -1,5 +1,13 @@
 import React, { useRef, useState } from "react";
-import { LogOut, Menu, ShoppingBasket, UserRoundCog, X } from "lucide-react";
+import {
+  FolderHeart,
+  LogOut,
+  Menu,
+  ShoppingBasket,
+  TicketCheck,
+  UserRoundCog,
+  X,
+} from "lucide-react";
 import { navItems } from "../constants";
 import { Link } from "react-router-dom";
 import useAuthStore from "../store/useAuthStore";
@@ -70,7 +78,7 @@ const Navbar = () => {
               </li>
               <li>
                 {authUser ? (
-                  <div className="dropdown dropdown-end p-0 mr-2">
+                  <div className="dropdown dropdown-end p-0 mr-2 hidden lg:block">
                     <div className="avatar" tabIndex={0} role="button">
                       <div className="ring-primary ring-offset-base-100 size-8 rounded-full ring-2 ring-offset-2">
                         <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
@@ -85,6 +93,17 @@ const Navbar = () => {
                           <UserRoundCog className="size-5 mr-2" /> Profile
                         </a>
                       </li>
+                      <li className="border-b border-base-content/40">
+                        <Link to="/favorites" className="btn btn-ghost">
+                          <FolderHeart className="size-5 mr-2" /> Favorite
+                        </Link>
+                      </li>
+                      <li className="border-b border-base-content/40">
+                        <Link to="/products/viewed" className="btn btn-ghost">
+                          <TicketCheck className="size-5 mr-2" /> Viewed
+                        </Link>
+                      </li>
+
                       <li className="border-b border-base-content/40">
                         <a onClick={handleLogout} className="btn btn-ghost">
                           <LogOut className="size-5 mr-2" /> Logout
@@ -114,11 +133,11 @@ const Navbar = () => {
         ></label>
 
         {/* Mobile Menu Items */}
-        <div className="menu bg-base-200 min-h-full w-full p-4 pt-12 relative">
+        <div className="menu bg-base-200 min-h-full w-full max-w-md p-4 pt-12 relative">
           <div className="absolute top-4 right-4">
             <X size={24} onClick={handleCloseDrawer} />
           </div>
-          <div className="flex flex-col min-h-[calc(100vh-64px)]">
+          <div className="flex flex-col justify-center items-start">
             <ul className="flex-1">
               {navItems.map((item) => (
                 <li key={item.name}>
@@ -132,26 +151,76 @@ const Navbar = () => {
                 </li>
               ))}
             </ul>
-            <ul className="menu menu-horizontal w-full items-center justify-between md:justify-start gap-4">
-              <li>
-                <Link
-                  to={"/auth/login"}
-                  onClick={handleCloseDrawer}
-                  className="btn btn-primary px-8"
+            {authUser ? (
+              <div className="dropdown dropdown-start mr-2 p-4">
+                <div className="avatar" tabIndex={0} role="button">
+                  <div className="ring-primary ring-offset-base-100 size-8 rounded-full ring-2 ring-offset-2">
+                    <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+                  </div>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu rounded-box z-1 w-fit border-1 border-base-content/50 shadow-sm"
                 >
-                  Login
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={"/auth/register"}
-                  onClick={handleCloseDrawer}
-                  className="btn btn-primary px-8"
-                >
-                  Sign Up
-                </Link>
-              </li>
-            </ul>
+                  <li className="border-b border-base-content/40 flex items-start">
+                    <a className="btn btn-ghost" onClick={handleCloseDrawer}>
+                      <UserRoundCog className="size-5 mr-2" /> Profile
+                    </a>
+                  </li>
+                  <li className="border-b border-base-content/40 flex items-start">
+                    <Link
+                      to="/favorites"
+                      className="btn btn-ghost"
+                      onClick={handleCloseDrawer}
+                    >
+                      <FolderHeart className="size-5 mr-2" /> Favorite
+                    </Link>
+                  </li>
+                  <li className="border-b border-base-content/40 flex items-start">
+                    <Link
+                      to="/products/viewed"
+                      className="btn btn-ghost"
+                      onClick={handleCloseDrawer}
+                    >
+                      <TicketCheck className="size-5 mr-2" /> Viewed
+                    </Link>
+                  </li>
+
+                  <li className="border-b border-base-content/40 flex items-start">
+                    <Link
+                      onClick={() => {
+                        handleCloseDrawer();
+                        handleLogout();
+                      }}
+                      className="btn btn-ghost"
+                    >
+                      <LogOut className="size-5 mr-2" /> Logout
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <ul className="menu menu-horizontal w-full items-center justify-between md:justify-start gap-4">
+                <li>
+                  <Link
+                    to={"/auth/login"}
+                    onClick={handleCloseDrawer}
+                    className="btn btn-primary px-8"
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to={"/auth/register"}
+                    onClick={handleCloseDrawer}
+                    className="btn btn-primary px-8"
+                  >
+                    Sign Up
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </div>
