@@ -1,7 +1,22 @@
 import { useEffect } from "react";
 import useFavoriteStore from "../../store/useFavoriteStore";
-import { Heart, HeartOff } from "lucide-react";
+import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
+import Breadcrumbs from "../../components/Breadcrumbs";
+const breadcrumbs = [
+  {
+    name: "Home",
+    link: "/",
+  },
+  {
+    name: "Products",
+    link: "/products",
+  },
+  {
+    name: "Favorites",
+    link: "/favorites",
+  },
+];
 
 const FavoritesPage = () => {
   const { favorites, removeFavorite, getFavorites } = useFavoriteStore();
@@ -17,24 +32,13 @@ const FavoritesPage = () => {
 
   return (
     <div className="p-4 bg-base-200 min-h-screen">
-      <div className="breadcrumbs text-sm text-base-content/50">
-        <ul>
-          <li>
-            <Link to={"/"}>Home</Link>
-          </li>
-          <li>
-            <Link to={"/products"}>Products</Link>
-          </li>
-          <li>Favorites</li>
-        </ul>
-      </div>
-      <h1 className="text-3xl font-semibold text-center mb-6 font-monospace text-primary">
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
+      <h1 className="text-3xl font-bold font-monospace mb-6">
         Favorite Courses
       </h1>
 
       {favorites?.length === 0 ? (
         <div className="text-center text-gray-500">
-          <HeartOff className="mx-auto size-16 mb-2" />
           <p>No favorite courses yet. Start adding some!</p>
         </div>
       ) : (
