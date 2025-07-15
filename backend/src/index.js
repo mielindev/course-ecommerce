@@ -3,6 +3,7 @@ import productRoute from "./routes/product.route.js";
 import authRoute from "./routes/auth.route.js";
 import categoryRoute from "./routes/category.route.js";
 import favoriteRoute from "./routes/favorite.route.js";
+import viewedRoute from "./routes/viewed.route.js";
 import { config } from "dotenv";
 import connectDB from "./lib/db.js";
 import cors from "cors";
@@ -25,6 +26,7 @@ app.use("/api/products", productRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/favorites", favoriteRoute);
+app.use("/api/viewed", viewedRoute);
 
 app.listen(PORT, () => {
   connectDB();

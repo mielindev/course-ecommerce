@@ -20,12 +20,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    viewedProducts: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-      },
-    ],
   },
   {
     timestamps: true,
