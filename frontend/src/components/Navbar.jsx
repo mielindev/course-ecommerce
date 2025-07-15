@@ -138,13 +138,16 @@ const Navbar = () => {
             <X size={24} onClick={handleCloseDrawer} />
           </div>
           <div className="flex flex-col justify-center items-start">
-            <ul className="flex-1">
+            <ul className="flex-1 w-full space-y-1.5">
               {navItems.map((item) => (
-                <li key={item.name}>
+                <li
+                  key={item.name}
+                  className="border border-base-content/20 rounded-lg"
+                >
                   <Link
                     to={item.path}
                     onClick={handleCloseDrawer}
-                    className="hover:text-primary cursor-pointer"
+                    className="hover:text-primary cursor-pointer "
                   >
                     {item.name}
                   </Link>
