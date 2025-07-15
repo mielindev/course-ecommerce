@@ -5,13 +5,17 @@ import StarRating from "./StarRating";
 
 const ProductCard = ({ products }) => {
   const navigate = useNavigate();
+
+  const handleClickAndAddViewed = (productId) => {
+    navigate(`/products/${productId}`);
+  };
   return (
     <>
       {products?.data?.map((product) => (
         <div
           key={product._id}
           className="card bg-base-100 shadow-sm relative select-none cursor-pointer overflow-hidden"
-          onClick={() => navigate(`/products/${product._id}`)}
+          onClick={() => handleClickAndAddViewed(product._id)}
         >
           <figure>
             <img

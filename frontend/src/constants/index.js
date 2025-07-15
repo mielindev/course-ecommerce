@@ -4,14 +4,6 @@ export const navItems = [
     path: "/products",
   },
   {
-    name: "Favorite",
-    path: "/favorites",
-  },
-  {
-    name: "Viewed",
-    path: "/products/viewed/",
-  },
-  {
     name: "Explore",
     path: "/explore",
   },
