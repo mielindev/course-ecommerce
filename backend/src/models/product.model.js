@@ -37,12 +37,6 @@ const productSchema = new mongoose.Schema(
       ref: "Category",
       required: true,
     },
-    viewedByUsers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
   },
   {
     timestamps: true,
