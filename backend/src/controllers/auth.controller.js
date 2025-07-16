@@ -36,17 +36,18 @@ const authController = {
       if (newUser) {
         generateToken(newUser._id, res);
         await newUser.save();
-
-        return res.status(201).json({
-          message: "Registered successfully",
-          data: {
-            _id: newUser._id,
-            name: newUser.name,
-            email: newUser.email,
-            avatar: newUser.avatar,
-          },
-        });
       }
+
+      return res.status(201).json({
+        message: "Registered successfully",
+        data: {
+          _id: newUser._id,
+          name: newUser.name,
+          email: newUser.email,
+          avatar: newUser.avatar,
+          cart: newUser.cart,
+        },
+      });
     } catch (error) {
       console.log("Error in register controller", error);
       return res.status(500).json({ message: "Internal Server Error" });
@@ -67,7 +68,7 @@ const authController = {
 
       if (!user) {
         return res.status(404).json({
-          message: "Email or password is incorrect, please try again",
+          message: "Email or password is incorrect",
         });
       }
 
@@ -75,7 +76,7 @@ const authController = {
 
       if (!isMatchPassword) {
         return res.status(404).json({
-          message: "Email or password is incorrect, please try again",
+          message: "Email or password is incorrect",
         });
       }
 
