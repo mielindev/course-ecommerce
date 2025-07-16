@@ -3,6 +3,7 @@ import axiosIntance from "../lib/axios";
 
 const useProductStore = create((set, get) => ({
   products: [],
+  suggestions: [],
   isGetingProducts: false,
   productDetail: null,
 
@@ -36,6 +37,18 @@ const useProductStore = create((set, get) => ({
       set({ productDetail: res.data });
     } catch (error) {
       console.log("Error in getProductById: ", error);
+    } finally {
+      set({ isGetingProducts: false });
+    }
+  },
+
+  getSuggestions: async () => {
+    set({ isGetingProducts: true });
+    try {
+      const res = await axiosIntance.get("products/explore/suggestions");
+      set({ suggestions: res.data.data });
+    } catch (error) {
+      console.log("Error in getSuggestions: ", error);
     } finally {
       set({ isGetingProducts: false });
     }

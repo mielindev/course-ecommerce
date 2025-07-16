@@ -4,23 +4,24 @@ import axiosIntance from "../lib/axios";
 const useCartStore = create((set, get) => ({
   cart: [],
   isGettingCart: false,
-  isUpdatingCartItem: false,
 
   getCart: async () => {
-    set({ isGettingCart: true });
     try {
-      const res = await axiosIntance.get("/cart");
-      set({ cart: res.data.cart });
+      set({ isGettingCart: true });
+      const res = await axiosIntance.get("/auth/cart");
+      set({ cart: res.data.cart, isGettingCart: false });
     } catch (error) {
       console.log("Error in getCart: ", error);
-    } finally {
       set({ isGettingCart: false });
     }
   },
 
   addToCart: async ({ productId, quantity }) => {
     try {
-      const res = await axiosIntance.post("/cart/add", { productId, quantity });
+      const res = await axiosIntance.post("/auth/cart/add", {
+        productId,
+        quantity,
+      });
 
       const updatedCart = res.data.cart;
 
@@ -31,9 +32,8 @@ const useCartStore = create((set, get) => ({
   },
 
   updateItemFromCart: async ({ productId, quantity }) => {
-    set({ isUpdatingCartItem: true });
     try {
-      const res = await axiosIntance.put("/cart/update", {
+      const res = await axiosIntance.put("/auth/cart/update", {
         productId,
         quantity,
       });
@@ -41,13 +41,11 @@ const useCartStore = create((set, get) => ({
       set({ cart: updatedCart });
     } catch (error) {
       console.log("Error in updateItemFromCart: ", error);
-    } finally {
-      set({ isUpdatingCartItem: false });
     }
   },
   removeItemFromCart: async (productId) => {
     try {
-      const res = await axiosIntance.delete(`/cart/remove/${productId}`);
+      const res = await axiosIntance.delete(`/auth/cart/remove/${productId}`);
       const updatedCart = res.data.cart;
       set({ cart: updatedCart });
     } catch (error) {
