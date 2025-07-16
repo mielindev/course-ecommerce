@@ -6,13 +6,14 @@ const useAuthStore = create((set, get) => ({
   authUser: null,
   isRegisering: false,
   isLoggingIn: false,
+  isUpdatingUser: false,
   isCheckingAuth: true,
   setUser: (user) => set({ authUser: user }),
 
   checkAuth: async () => {
     try {
       const res = await axiosIntance.get("/auth/check");
-      set({ authUser: res.data });
+      set({ authUser: res.data.data });
     } catch (error) {
       console.log("Error in checkAuth: ", error);
     } finally {
@@ -54,6 +55,17 @@ const useAuthStore = create((set, get) => ({
       set({ authUser: null });
     } catch (error) {
       console.log("Error in logout: ", error);
+    }
+  },
+
+  updateUser: async ({ avatar }) => {
+    set({ isUpdatingUser: true });
+    try {
+      const res = await axiosIntance.put("/auth/update", { avatar });
+      set({ authUser: res.data.data });
+    } catch (error) {
+    } finally {
+      set({ isUpdatingUser: false });
     }
   },
 }));
