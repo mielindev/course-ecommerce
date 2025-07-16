@@ -29,7 +29,7 @@ const useAuthStore = create((set, get) => ({
       toast.success(res.message || "Sign-up successful!");
     } catch (error) {
       console.log("Error in register: ", error);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message || "Sign-up failed!");
     } finally {
       set({ isRegisering: false });
     }
@@ -43,7 +43,9 @@ const useAuthStore = create((set, get) => ({
       toast.success(res.message || "Login successful!");
     } catch (error) {
       console.log("Error in login: ", error);
-      toast.error(error.response.data.message);
+      toast.error(
+        error.response.data.message || "Login failed! Please try again."
+      );
     } finally {
       set({ isLogining: false });
     }
@@ -53,6 +55,7 @@ const useAuthStore = create((set, get) => ({
     try {
       await axiosIntance.post("/auth/logout");
       set({ authUser: null });
+      toast.success("Logout successful!");
     } catch (error) {
       console.log("Error in logout: ", error);
     }
@@ -63,7 +66,10 @@ const useAuthStore = create((set, get) => ({
     try {
       const res = await axiosIntance.put("/auth/update", { avatar });
       set({ authUser: res.data.data });
+      toast.success(res.message || "Profile picture updated successfully!");
     } catch (error) {
+      console.log("Error in updateUser: ", error);
+      toast.error(error.response.data.message || "Update failed!");
     } finally {
       set({ isUpdatingUser: false });
     }

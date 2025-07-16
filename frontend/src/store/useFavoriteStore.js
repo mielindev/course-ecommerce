@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axiosIntance from "../lib/axios";
+import { toast } from "react-hot-toast";
 
 const useFavoriteStore = create((set, get) => ({
   favorites: [],
@@ -11,8 +12,10 @@ const useFavoriteStore = create((set, get) => ({
       set((state) => ({
         favorites: [...state.favorites, res.data.favorites],
       }));
+      toast.success(res.message || "Product added to favorites!");
     } catch (error) {
       console.log("Error in addFavorite: ", error);
+      toast.error(error.response.data.message || "Failed to add to favorites!");
     }
   },
 
@@ -34,8 +37,10 @@ const useFavoriteStore = create((set, get) => ({
       set((state) => ({
         favorites: state.favorites.filter((fav) => fav.product !== productId),
       }));
+      toast.success("Product removed from favorites!");
     } catch (error) {
       console.log("Error in removeFavorite: ", error);
+      toast.error("Failed to remove from favorites!");
     }
   },
 }));

@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axiosIntance from "../lib/axios";
+import toast from "react-hot-toast";
 
 const useViewedStore = create((set, get) => ({
   viewedProducts: [],
@@ -32,8 +33,10 @@ const useViewedStore = create((set, get) => ({
     try {
       await axiosIntance.delete(`/viewed`);
       set({ viewedProducts: [] });
+      toast.success("Viewed products totally removed!");
     } catch (error) {
       console.log("Error in removeViewedProduct: ", error);
+      toast.error("Failed to remove viewed products!");
     }
   },
 }));
