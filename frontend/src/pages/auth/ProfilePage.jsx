@@ -6,7 +6,6 @@ import { Camera, Circle, Mail, User } from "lucide-react";
 const ProfilePage = () => {
   const { authUser, isCheckingAuth, isUpdatingUser, updateUser } =
     useAuthStore();
-  console.log("👉 ~ ProfilePage ~ authUser:", authUser);
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState(null);
