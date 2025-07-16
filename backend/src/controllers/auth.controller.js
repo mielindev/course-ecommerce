@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import generateToken from "../lib/jwt.js";
 import bcrypt from "bcrypt";
+import cloudinary from "../lib/cloudinary.js";
 const authController = {
   register: async (req, res) => {
     const { name, email, password } = req.body;
@@ -112,15 +113,43 @@ const authController = {
       const user = req.user;
       return res.status(200).json({
         message: "Check successfully",
-        data: {
-          _id: user._id,
-          name: user.name,
-          email: user.email,
-          avatar: user.avatar,
-        },
+        data: user,
       });
     } catch (error) {
       console.log("Error in check controller", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  },
+
+  updateProfilePic: async (req, res) => {
+    try {
+      const user = req.user;
+      const { avatar } = req.body;
+
+      if (!avatar) {
+        return res
+          .status(400)
+          .json({ message: "Please enter all required fields" });
+      }
+
+      const uploadResult = await cloudinary.uploader.upload(avatar);
+
+      const updatedUser = await User.findByIdAndUpdate(
+        user._id,
+        {
+          avatar: uploadResult.secure_url,
+        },
+        {
+          new: true,
+        }
+      );
+
+      return res.status(200).json({
+        message: "Profile picture updated successfully",
+        data: updatedUser,
+      });
+    } catch (error) {
+      console.log("Error in updateProfilePic controller", error);
       return res.status(500).json({ message: "Internal Server Error" });
     }
   },

@@ -9,5 +9,6 @@ router.post("/login", authController.login);
 router.post("/logout", authController.logout);
 
 router.get("/check", protectRoute, authController.check);
+router.put("/update", protectRoute, authController.updateProfilePic);
 
 export default router;
