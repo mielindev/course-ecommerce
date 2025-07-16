@@ -1,4 +1,6 @@
+import Favorite from "../models/favorite.model.js";
 import Product from "../models/product.model.js";
+import Viewed from "../models/viewed.model.js";
 
 const productController = {
   createProduct: async (req, res) => {
@@ -88,6 +90,55 @@ const productController = {
       return res.status(200).json(product);
     } catch (error) {
       console.log("Error getting product:", error);
+      return res.status(500).json({ message: error.message });
+    }
+  },
+
+  getSuggestions: async (req, res) => {
+    try {
+      const userId = req.user._id;
+
+      // Get latest 5 viewed and 5 favorited products
+      const [viewed, favorited] = await Promise.all([
+        Viewed.find({ user: userId }).sort({ updatedAt: -1 }).limit(5).lean(),
+        Favorite.find({ user: userId }).sort({ createdAt: -1 }).limit(5).lean(),
+      ]);
+
+      const viewedIds = viewed.map((v) => v.product.toString());
+      const favortedIds = favorited.map((f) => f.product.toString());
+      const interactedIds = [...new Set([...viewedIds, ...favortedIds])];
+      const interactedProducts = await Product.find({
+        _id: { $in: interactedIds },
+      })
+        .select("category name description")
+        .lean();
+
+      const categorySet = new Set();
+      const nameSet = new Set();
+      const descriptionSet = new Set();
+
+      for (const product of interactedProducts) {
+        if (product.category) categorySet.add(product.category.toString());
+        if (product.name) nameSet.add(product.name.toString());
+        if (product.description)
+          descriptionSet.add(product.description.toString());
+      }
+
+      const sugestions = await Product.find({
+        _id: { $nin: interactedIds },
+        $or: [
+          { category: { $in: Array.from(categorySet) } },
+          { name: { $in: Array.from(nameSet) } },
+          { description: { $in: Array.from(descriptionSet) } },
+        ],
+      });
+
+      return res.status(200).json({
+        message: "Suggestions retrieved successfully",
+        data: sugestions,
+      });
+    } catch (error) {
+      console.log("Error getting suggestions:", error);
       return res.status(500).json({ message: error.message });
     }
   },

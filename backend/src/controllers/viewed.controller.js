@@ -11,19 +11,27 @@ const viewedController = {
         return res.status(400).json({ message: "Product ID is required" });
       }
 
-      const existing = await Viewed.findOne({
-        user: userId,
-        product: productId,
-      });
-
-      if (existing) return res.sendStatus(204); // No Content
-
-      const newViewed = new Viewed({ user: userId, product: productId });
-      await newViewed.save();
+      // Check if the user has already viewed the product
+      await Viewed.findOneAndUpdate(
+        {
+          user: userId,
+          product: productId,
+        },
+        // If the user has already viewed the product, update the timestamp
+        {
+          $set: {},
+        },
+        // Else create a new document
+        {
+          upsert: true,
+          new: true,
+          setDefaultsOnInsert: true,
+        }
+      );
 
       return res
         .status(201)
-        .json({ message: "Product viewed successfully", viewed: newViewed });
+        .json({ message: "Product has been marked as viewed successfully" });
     } catch (error) {
       console.log("Error in addView controller", error);
       return res.status(500).json({ message: "Internal Server Error" });
