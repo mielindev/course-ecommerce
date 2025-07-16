@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   FolderHeart,
   LogOut,
@@ -14,10 +14,13 @@ import useAuthStore from "../store/useAuthStore";
 
 const Navbar = () => {
   const drawerRef = useRef();
-  const { authUser, logout } = useAuthStore();
+  const { authUser, logout, checkAuth } = useAuthStore();
   const handleCloseDrawer = () => {
     if (drawerRef.current) drawerRef.current.checked = false;
   };
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   const handleLogout = () => {
     logout();
@@ -81,7 +84,7 @@ const Navbar = () => {
                   <div className="dropdown dropdown-end p-0 mr-2 hidden lg:block">
                     <div className="avatar" tabIndex={0} role="button">
                       <div className="ring-primary ring-offset-base-100 size-8 rounded-full ring-2 ring-offset-2">
-                        <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+                        <img src={authUser?.avatar} />
                       </div>
                     </div>
                     <ul
@@ -90,6 +93,7 @@ const Navbar = () => {
                     >
                       <li className="border-b border-base-content/40">
                         <Link
+                          to="/profile"
                           onClick={() => document.activeElement.blur()}
                           className="btn btn-ghost"
                         >
