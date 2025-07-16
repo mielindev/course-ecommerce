@@ -54,9 +54,8 @@ const ProductDetailPage = () => {
     }
   };
 
-  const handleShopNow = (productId) => {
-    addToCart({ productId, quantity: 1 });
-    toast.success("Product added to cart");
+  const handleShopNow = async (productId) => {
+    await addToCart({ productId, quantity: 1 });
     navigate("/cart");
   };
   return (

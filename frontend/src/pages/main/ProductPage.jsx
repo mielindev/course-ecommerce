@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Filter, Loader, Search } from "lucide-react";
 import ProductCard from "../../components/ProductCard";
 import useProductStore from "../../store/useProductStore";
@@ -15,6 +15,7 @@ const ProductPage = () => {
   const { products, isGetingProducts, getProducts } = useProductStore();
   const { categories, isGettingCategories, getCategories } = useCategoryStore();
   const { register, handleSubmit, reset } = useForm();
+  const searchInputRef = useRef();
 
   useEffect(() => {
     getProducts();
@@ -49,13 +50,14 @@ const ProductPage = () => {
     });
     setCurrentPage(1); // reset page to 1
     reset();
+    searchInputRef.current.checked = false;
   };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 space-y-1.5 p-4 lg:gap-2">
       {/* Filter */}
       <aside className="collapse lg:collapse-open md:col-span-1 shadow-sm rounded-r-none border-base-content/30 lg:p-2 lg:sticky top-0 self-start h-fit">
-        <input type="checkbox" />
+        <input ref={searchInputRef} type="checkbox" />
         <div className="collapse-title text-xl font-semibold font-monospace flex items-center justify-between px-0 py-2">
           <div className="flex items-center">
             <Filter size={20} className="mr-2" /> Filter
