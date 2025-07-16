@@ -84,7 +84,7 @@ const Navbar = () => {
                   <div className="dropdown dropdown-end p-0 mr-2 hidden lg:block">
                     <div className="avatar" tabIndex={0} role="button">
                       <div className="ring-primary ring-offset-base-100 size-8 rounded-full ring-2 ring-offset-2">
-                        <img src={authUser?.avatar} />
+                        <img src={authUser?.avatar || "/avatar.png"} />
                       </div>
                     </div>
                     <ul
@@ -173,7 +173,7 @@ const Navbar = () => {
               <div className="dropdown dropdown-start mr-2 p-4">
                 <div className="avatar" tabIndex={0} role="button">
                   <div className="ring-primary ring-offset-base-100 size-8 rounded-full ring-2 ring-offset-2">
-                    <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+                    <img src={authUser?.avatar || "/avatar.png"} />
                   </div>
                 </div>
                 <ul
@@ -181,9 +181,13 @@ const Navbar = () => {
                   className="dropdown-content menu rounded-box z-1 w-fit border-1 border-base-content/50 shadow-sm"
                 >
                   <li className="border-b border-base-content/40 flex items-start">
-                    <a className="btn btn-ghost" onClick={handleCloseDrawer}>
+                    <Link
+                      to="/profile"
+                      className="btn btn-ghost"
+                      onClick={handleCloseDrawer}
+                    >
                       <UserRoundCog className="size-5 mr-2" /> Profile
-                    </a>
+                    </Link>
                   </li>
                   <li className="border-b border-base-content/40 flex items-start">
                     <Link
