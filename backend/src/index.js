@@ -8,10 +8,11 @@ import { config } from "dotenv";
 import connectDB from "./lib/db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 config();
 const PORT = process.env.PORT || 5000;
-
+const __dirname = path.resolve();
 const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
@@ -28,6 +29,12 @@ app.use("/api/category", categoryRoute);
 app.use("/api/favorites", favoriteRoute);
 app.use("/api/viewed", viewedRoute);
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+  });
+}
 app.listen(PORT, () => {
   connectDB();
   console.log(`Server is running on port ${PORT}`);
