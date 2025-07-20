@@ -22,7 +22,7 @@ const CartPage = () => {
     if (!isCheckingAuth && authUser) {
       getCart();
     } else {
-      navigate("auth/login", { replace: true });
+      navigate("/auth/login", { replace: true });
     }
   }, [getCart, isCheckingAuth, authUser, navigate]);
 
